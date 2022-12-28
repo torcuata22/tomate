@@ -18,13 +18,13 @@ LONG_BREAK_MIN = 20
 # ---------------------------- UI SETUP ------------------------------- #
 window = Tk()
 window.title("Pomodoro")
-window.config(padx=100, pady=50)
+window.config(padx=100, pady=50, bg=YELLOW)
 
 #add image using canvas widget:
-canvas = Canvas(width=200 ,height=224)
+canvas = Canvas(width=200 ,height=224, bg=YELLOW, highlightthickness=0)#highlightthickness = 0 get rid of border around canvas
 tomato_img=PhotoImage(file="tomato.png")
-canvas.create_image(103, 112, image= tomato_img) #x, y, image as PhotoImage
-canvas.create_text(103, 130, text= "00:00", fill="white", font=(FONT_NAME, 35, "bold")) #same values as the image for position
+canvas.create_image(100, 112, image= tomato_img) #x, y, image as PhotoImage
+canvas.create_text(100, 130, text= "00:00", fill="white", font=(FONT_NAME, 35, "bold")) #same values as the image for position
 canvas.pack()
 
 
