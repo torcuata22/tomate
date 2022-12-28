@@ -10,8 +10,21 @@ WORK_MIN = 25
 SHORT_BREAK_MIN = 5
 LONG_BREAK_MIN = 20
 reps = 0
+timer = None
 
-# ---------------------------- TIMER RESET ------------------------------- # 
+# TIMER RESET ------------------------------- # 
+def reset_timer():
+    """resets everything, stops timer, changes title back to 'Timer'"""
+    window.after_cancel(timer)
+    #reset timer text to 00:00
+    canvas.itemconfig(timer_text, text="00:00")
+    #reset title label to  "Timer"
+    title_label.config(text="Timer")
+    #reset checkmarks
+    checkmarks.config(text="")
+    #reset number of sessions we've had so we sart again from zero sessions (reps)
+    global reps
+    reps = 0
 
 # TIMER MECHANISM 
 def start_timer():
@@ -40,9 +53,19 @@ def count_down(count):
     #change canvas element using itemconfig() for the specific canvas:
     canvas.itemconfig(timer_text, text=f"{count_min}:{count_sec}")
     if count > 0:
-        window.after(1000, count_down, count-1) #use this instead of time module
+        global timer
+        timer = window.after(1000, count_down, count-1) #use this instead of time module
     else:
         start_timer()
+        marks = ""
+        work_sessions = math.floor(reps/2)
+        for _ in range(work_sessions):
+            marks += "✔︎"
+        checkmarks.config(text=marks)
+
+
+
+        #if reps%2 == 0 add checkmark to label (label.config?)
 #UI SETUP:
 window = Tk()
 window.title("Pomodoro")
@@ -61,11 +84,11 @@ canvas.grid(column=1, row=1)
 start_button = Button(text="Start", highlightthickness=0, command = start_timer) #command binds button to a function
 start_button.grid(column=0, row=2)
 
-reset_button = Button(text="Reset", highlightthickness=0)
+reset_button = Button(text="Reset", highlightthickness=0, command = reset_timer)
 reset_button.grid(column=2, row=2)
 
 
-checkmarks = Label(text="✓", fg=GREEN, bg=YELLOW)
+checkmarks = Label(fg=GREEN, bg=YELLOW) 
 checkmarks.grid(column=1, row=3)
 
 
